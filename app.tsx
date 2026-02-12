@@ -5,57 +5,65 @@ import sendEmail from './services/emailService';
 
 async function main() {
 
-  // 1. Dati del passeggero (simulati)
-  const datiVolo = {
-    nome: "Giuseppe Tribastone",
+  const datiBiglietto = {
+    passeggero: "Giuseppe Tribastone",
     pnr: "GTR99X",
-    partenza: "CTA Catania",
-    arrivo: "MXP Milano Malpensa"
+    numeroVolo: "AZ204",
+    tipo: "Diretto",
+    classe: "Business Class",
+    posto: "14A",
+    dep_city: "CTA Catania",
+    dep_date: "12 Dic 2026",
+    dep_time: "10:45",
+    arr_city: "MXP Milano",
+    arr_date: "12 Dic 2026",
+    arr_time: "12:30",
+    checkin: "https://aerolineesiciliane.it/checkin?pnr=GTR99X",
+    supporto: "https://aerolineesiciliane.it/help"
   };
 
   try {
-    // 2. Generiamo l'HTML da React
     const emailHtml = await render(
       <PrenotazioneVolo
-        nomePasseggero={datiVolo.nome}
-        codicePrenotazione={datiVolo.pnr}
-        partenza={datiVolo.partenza}
-        arrivo={datiVolo.arrivo}
+        nomePasseggero={datiBiglietto.passeggero}
+        codicePrenotazione={datiBiglietto.pnr}
+        volo={datiBiglietto.numeroVolo}
+        tipoVolo={datiBiglietto.tipo}
+        classe={datiBiglietto.classe}
+        posto={datiBiglietto.posto}
+
+        aeroportoPartenza={datiBiglietto.dep_city}
+        dataPartenza={datiBiglietto.dep_date}
+        oraPartenza={datiBiglietto.dep_time}
+
+        aeroportoArrivo={datiBiglietto.arr_city}
+        dataArrivo={datiBiglietto.arr_date}
+        oraArrivo={datiBiglietto.arr_time}
+
+        linkCheckin={datiBiglietto.checkin}
+        linkSupporto={datiBiglietto.supporto}
       />
     );
 
-    // 3. DEFINIAMO GLI ALLEGATI
-    // Puoi mettere quanti file vuoi in questo array
     const listaAllegati = [
       {
-        // Logo inline bianco (sarà visibile nel corpo dell'email)
         filename: 'logo.png',
         path: './assets/logo-white.png',
-        cid: 'logo' // Content-ID per referenziarlo nell'HTML
+        cid: 'logo'
       },
       {
-        // ESEMPIO A: File generato al volo (Testo)
-        // Utile per log, ricevute semplici o se non hai file su disco
         filename: 'Dettagli_Prenotazione.txt',
-        content: `Riepilogo Volo per ${datiVolo.nome}.\nCodice: ${datiVolo.pnr}\nGrazie per aver volato con noi.`
-      },
-      /* {
-          // ESEMPIO B: File vero dal disco (PDF, Immagini)
-          // Scommenta questo se hai un file nella cartella del progetto
-          filename: 'Condizioni_Generali.pdf',
-          path: './files/condizioni.pdf' 
-      } 
-      */
+        content: `Riepilogo Volo per ${datiBiglietto.passeggero}.\nCodice: ${datiBiglietto.pnr}\nGrazie per aver volato con noi.`
+      }
     ];
 
     console.log("Preparazione invio con allegati...");
 
-    // 4. INVIAMO LA MAIL (Passiamo 4 argomenti ora!)
     await sendEmail(
-      "giuseppet100@gmail.com", // <--- Metti qui la tua mail per il test
-      `Conferma Prenotazione ${datiVolo.pnr}`, // Oggetto
-      emailHtml, // HTML Renderizzato
-      listaAllegati // <--- L'array degli allegati
+      "giuseppet100@gmail.com",
+      `Conferma Prenotazione ${datiBiglietto.pnr}`,
+      emailHtml,
+      listaAllegati
     );
 
     console.log("Processo completato.");
