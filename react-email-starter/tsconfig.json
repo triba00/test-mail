@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "composite": false,
     "jsx": "react-jsx",
     "skipLibCheck": true,
@@ -7,6 +8,12 @@
     "noEmit": true,
     "strictNullChecks": true
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", ".react-email"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".react-email"
+  ]
 }
